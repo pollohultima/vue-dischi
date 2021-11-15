@@ -1,13 +1,15 @@
 <template>
   <main>
-    <div class="container-fluid">
-      <div class="row">
+    <div class="container-fluid gx-4">
+      <div class="row gx-5 gy-3 justify-content-center">
         <div class="col-2" v-for="album in albums" :key="album.title">
-          <div class="card">
-            <img :src="album.poster" alt="" />
-            <h6>{{ album.title }}</h6>
-            <p>{{ album.author }}</p>
-            <p>{{ album.year }}</p>
+          <div class="card border-0 p-4">
+            <img :src="album.poster" alt="" class="mb-4" />
+            <h4 class="text-center text-white">
+              {{ album.title.toUpperCase() }}
+            </h4>
+            <p class="text-center text-muted m-0">{{ album.author }}</p>
+            <p class="text-center text-muted m-0">{{ album.year }}</p>
           </div>
         </div>
       </div>
@@ -34,6 +36,15 @@ export default {
 </script>
 
 <style lang="scss">
-.card {
+main {
+  padding: 110px 0;
+  background: #1e2d3b;
+  .card {
+    height: 100%;
+    background-color: #2e3a46;
+  }
+  img {
+    width: 100%;
+  }
 }
 </style>
