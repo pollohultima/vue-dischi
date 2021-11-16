@@ -5,40 +5,23 @@
         class="form-select filter position-absolute"
         aria-label="Default select example"
       >
-        <option selected>Filter by:</option>
-        <option value="1">Genre</option>
-        <option value="2">Artist</option>
+        <option selected>Select a Genre</option>
+        <option value="rock">Rock</option>
+        <option value="pop">Pop</option>
+        <option value="jazz">Jazz</option>
+        <option value="metal">Metal</option>
       </select>
-      <div class="row gx-5 gy-4 justify-content-center">
-        <div class="col-2" v-for="album in albums" :key="album.title">
-          <div class="card border-0 p-4">
-            <img :src="album.poster" alt="" class="mb-4" />
-            <h5 class="text-center text-white">
-              {{ album.title.toUpperCase() }}
-            </h5>
-            <p class="text-center text-muted m-0">{{ album.author }}</p>
-            <p class="text-center text-muted m-0">{{ album.year }}</p>
-          </div>
-        </div>
-      </div>
+
+      <AlbumCard />
     </div>
   </main>
 </template>
 
 <script>
-import axios from "axios";
+import AlbumCard from "./AlbumCard.vue";
 export default {
-  data() {
-    return {
-      albums: [],
-    };
-  },
-  mounted() {
-    axios
-      .get("https://flynn.boolean.careers/exercises/api/array/music")
-      .then((r) => {
-        this.albums = r.data.response;
-      });
+  components: {
+    AlbumCard,
   },
 };
 </script>
@@ -46,17 +29,10 @@ export default {
 <style lang="scss">
 main {
   padding: 110px 0;
-  background: #1e2d3b;
+
   .filter {
     width: 200px;
     top: -50px;
-  }
-  .card {
-    height: 100%;
-    background-color: #2e3a46;
-  }
-  img {
-    width: 100%;
   }
 }
 </style>

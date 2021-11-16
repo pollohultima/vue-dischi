@@ -20,4 +20,7 @@ export default {
 
 <style lang="scss">
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
+body {
+  background: #1e2d3b;
+}
 </style>
