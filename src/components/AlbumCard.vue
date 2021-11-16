@@ -1,7 +1,8 @@
 <template>
   <div>
+    <GenreSelector @changeGen="pickGen" />
     <div class="row gx-5 gy-4 justify-content-center" v-if="!loading">
-      <div class="col-2" v-for="album in albums" :key="album.title">
+      <div class="col-2" v-for="album in genFilter" :key="album.title">
         <div class="card border-0 p-4">
           <img :src="album.poster" alt="" class="mb-4" />
           <h5 class="text-center text-white">
@@ -20,12 +21,18 @@
 
 <script>
 import axios from "axios";
+import GenreSelector from "./GenreSelector.vue";
 
 export default {
+  components: {
+    GenreSelector,
+  },
+
   data() {
     return {
       albums: [],
       loading: true,
+      selectItem: "default",
     };
   },
 
@@ -44,6 +51,23 @@ export default {
         .catch((error) => {
           console.log(error, "ERROR");
         });
+    },
+
+    pickGen(selectedGen) {
+      this.selectItem = selectedGen;
+    },
+  },
+
+  computed: {
+    genFilter() {
+      if (this.selectItem === "default") {
+        return this.albums;
+      } else {
+        const filteredItem = this.albums.filter((album) => {
+          return album.genre.includes(this.selectItem);
+        });
+        return filteredItem;
+      }
     },
   },
 };
