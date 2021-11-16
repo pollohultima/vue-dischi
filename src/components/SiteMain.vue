@@ -1,13 +1,18 @@
 <template>
   <main>
     <div class="container-fluid gx-4">
-      <div class="row gx-5 gy-3 justify-content-center">
+      <select class="form-select" aria-label="Default select example">
+        <option selected>Filter</option>
+        <option value="1">Genre</option>
+        <option value="2">Artist</option>
+      </select>
+      <div class="row gx-5 gy-4 justify-content-center">
         <div class="col-2" v-for="album in albums" :key="album.title">
           <div class="card border-0 p-4">
             <img :src="album.poster" alt="" class="mb-4" />
-            <h4 class="text-center text-white">
+            <h5 class="text-center text-white">
               {{ album.title.toUpperCase() }}
-            </h4>
+            </h5>
             <p class="text-center text-muted m-0">{{ album.author }}</p>
             <p class="text-center text-muted m-0">{{ album.year }}</p>
           </div>
