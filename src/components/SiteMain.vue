@@ -1,8 +1,11 @@
 <template>
   <main>
-    <div class="container-fluid gx-4">
-      <select class="form-select" aria-label="Default select example">
-        <option selected>Filter</option>
+    <div class="container-fluid gx-4 position-relative">
+      <select
+        class="form-select filter position-absolute"
+        aria-label="Default select example"
+      >
+        <option selected>Filter by:</option>
         <option value="1">Genre</option>
         <option value="2">Artist</option>
       </select>
@@ -44,6 +47,10 @@ export default {
 main {
   padding: 110px 0;
   background: #1e2d3b;
+  .filter {
+    width: 200px;
+    top: -50px;
+  }
   .card {
     height: 100%;
     background-color: #2e3a46;
