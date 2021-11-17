@@ -1,16 +1,26 @@
 <template>
   <div>
-    <GenreSelector @changeGen="pickGen" />
-    <div class="row gx-5 gy-4 justify-content-center" v-if="!loading">
-      <div class="col-2" v-for="album in genFilter" :key="album.title">
-        <div class="card border-0 p-4">
-          <img :src="album.poster" alt="" class="mb-4" />
-          <h5 class="text-center text-white">
-            {{ album.title.toUpperCase() }}
-          </h5>
-          <p class="text-center text-muted m-0">{{ album.author }}</p>
-          <p class="text-center text-muted m-0">{{ album.year }}</p>
+    <GenreSelector @changeGen="pickGen" :genres="getGenre" />
+    <ArtistSelector @changeArtist="pickArtist" :artists="getArtist" />
+
+    <div v-if="!loading">
+      <div
+        v-if="filterItems.length != 0"
+        class="row gx-5 gy-4 justify-content-center"
+      >
+        <div v-for="album in filterItems" class="col-2" :key="album.title">
+          <div class="card border-0 p-4">
+            <img :src="album.poster" alt="" class="mb-4" />
+            <h5 class="text-center text-white">
+              {{ album.title.toUpperCase() }}
+            </h5>
+            <p class="text-center text-muted m-0">{{ album.author }}</p>
+            <p class="text-center text-muted m-0">{{ album.year }}</p>
+          </div>
         </div>
+      </div>
+      <div class="text-center text-white" v-else>
+        <h2>Nothing to visualize :/</h2>
       </div>
     </div>
     <div v-else>
@@ -22,17 +32,20 @@
 <script>
 import axios from "axios";
 import GenreSelector from "./GenreSelector.vue";
+import ArtistSelector from "./ArtistSelector.vue";
 
 export default {
   components: {
     GenreSelector,
+    ArtistSelector,
   },
 
   data() {
     return {
       albums: [],
       loading: true,
-      selectItem: "default",
+      genre: "default",
+      artist: "default",
     };
   },
 
@@ -53,21 +66,50 @@ export default {
         });
     },
 
-    pickGen(selectedGen) {
-      this.selectItem = selectedGen;
+    pickGen(genre) {
+      this.genre = genre;
+    },
+
+    pickArtist(artist) {
+      this.artist = artist;
     },
   },
 
   computed: {
-    genFilter() {
-      if (this.selectItem === "default") {
+    getGenre() {
+      let genres = [];
+      this.albums.forEach((album) => {
+        if (!genres.includes(album.genre)) {
+          genres.push(album.genre);
+        }
+      });
+      console.log(genres);
+      return genres;
+    },
+
+    getArtist() {
+      let artists = [];
+      this.albums.forEach((album) => {
+        if (!artists.includes(album.author)) {
+          artists.push(album.author);
+        }
+      });
+      console.log(artists);
+      return artists;
+    },
+
+    filterItems() {
+      if (this.genre === "default" && this.artist === "default") {
         return this.albums;
-      } else {
-        const filteredItem = this.albums.filter((album) => {
-          return album.genre.includes(this.selectItem);
-        });
-        return filteredItem;
+      } else if (this.genre !== "default" && this.artist !== "default") {
+        return this.albums.filter(
+          (album) => album.genre === this.genre && album.author === this.artist
+        );
       }
+
+      return this.albums.filter(
+        (album) => album.genre === this.genre || album.author === this.artist
+      );
     },
   },
 };

@@ -1,20 +1,23 @@
 <template>
   <select
-    class="form-select filter position-absolute"
+    class="form-select filterGen position-absolute"
     aria-label="Default select example"
     v-model="selector"
     @change="$emit('changeGen', selector)"
   >
     <option value="default">Select a Genre</option>
-    <option value="Rock">Rock</option>
-    <option value="Pop">Pop</option>
-    <option value="Jazz">Jazz</option>
-    <option value="Metal">Metal</option>
+    <option v-for="genre in genres" :value="genre" :key="genre">
+      {{ genre }}
+    </option>
   </select>
 </template>
 
 <script>
 export default {
+  props: {
+    genres: Array,
+  },
+
   data() {
     return {
       selector: "default",
@@ -24,8 +27,8 @@ export default {
 </script>
 
 <style lang="scss">
-.filter {
-  width: 200px;
+.filterGen {
+  width: 200px !important;
   top: -50px;
 }
 </style>
